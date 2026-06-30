@@ -1,0 +1,465 @@
+{
+  "info": {
+    "name": "Warehouse Allocation System",
+    "description": "API collection for the Warehouse Allocation System - Enterprise Level. Covers Warehouse CRUD, Product management, Allocation workflow, Stock Transfer, and search/audit endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "b1f1a2c4-3e2a-4a5d-9a90-warehouse-alloc-system"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api/v1", "type": "string" },
+    { "key": "warehouseId", "value": "1", "type": "string" },
+    { "key": "productId", "value": "1", "type": "string" },
+    { "key": "allocationId", "value": "1", "type": "string" },
+    { "key": "transferId", "value": "1", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Warehouse",
+      "item": [
+        {
+          "name": "Create Warehouse",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Bengaluru Central Warehouse\",\n  \"location\": \"Bengaluru, Karnataka\",\n  \"capacity\": 10000,\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/warehouses",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "warehouses" ]
+            },
+            "description": "Create a new warehouse record."
+          }
+        },
+        {
+          "name": "Get Warehouse By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/warehouses/{{warehouseId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "warehouses", "{{warehouseId}}" ]
+            }
+          }
+        },
+        {
+          "name": "Get All Warehouses (Paginated)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/warehouses?page=0&size=10&sortBy=name&sortDir=asc",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "warehouses" ],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" },
+                { "key": "sortBy", "value": "name" },
+                { "key": "sortDir", "value": "asc" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Warehouse",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Bengaluru Central Warehouse - Updated\",\n  \"location\": \"Bengaluru, Karnataka\",\n  \"capacity\": 12000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/warehouses/{{warehouseId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "warehouses", "{{warehouseId}}" ]
+            }
+          }
+        },
+        {
+          "name": "Activate Warehouse",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/warehouses/{{warehouseId}}/activate",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "warehouses", "{{warehouseId}}", "activate" ]
+            }
+          }
+        },
+        {
+          "name": "Deactivate Warehouse",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/warehouses/{{warehouseId}}/deactivate",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "warehouses", "{{warehouseId}}", "deactivate" ]
+            }
+          }
+        },
+        {
+          "name": "Soft Delete Warehouse",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/warehouses/{{warehouseId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "warehouses", "{{warehouseId}}" ]
+            },
+            "description": "Soft delete - marks warehouse status as INACTIVE/DELETED rather than removing the row."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Wireless Mouse\",\n  \"sku\": \"SKU-WM-1001\",\n  \"totalStock\": 500\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "products" ]
+            }
+          }
+        },
+        {
+          "name": "Get Product By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "products", "{{productId}}" ]
+            }
+          }
+        },
+        {
+          "name": "Get All Products (Paginated)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products?page=0&size=10",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "products" ],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Wireless Mouse Pro\",\n  \"sku\": \"SKU-WM-1001\",\n  \"totalStock\": 600\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "products", "{{productId}}" ]
+            }
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "products", "{{productId}}" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Warehouse Inventory",
+      "item": [
+        {
+          "name": "Get Inventory By Warehouse",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/warehouses/{{warehouseId}}/inventory",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "warehouses", "{{warehouseId}}", "inventory" ]
+            }
+          }
+        },
+        {
+          "name": "Get Inventory By Product Across Warehouses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inventory?productId={{productId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "inventory" ],
+              "query": [ { "key": "productId", "value": "{{productId}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Update Available Quantity (Restock)",
+          "request": {
+            "method": "PATCH",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"warehouseId\": 1,\n  \"productId\": 1,\n  \"quantityToAdd\": 200\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inventory/restock",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "inventory", "restock" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Allocation",
+      "item": [
+        {
+          "name": "Create Allocation (Auto Warehouse Selection)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"quantity\": 50\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/allocations",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "allocations" ]
+            },
+            "description": "Allocation request without warehouseId triggers automatic warehouse selection based on available stock and capacity."
+          }
+        },
+        {
+          "name": "Create Allocation (Specific Warehouse)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"warehouseId\": 1,\n  \"quantity\": 50\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/allocations",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "allocations" ]
+            },
+            "description": "Allocate stock to a specific warehouse. Validates product existence, capacity, available stock, and uses optimistic locking on the inventory record before allocating."
+          }
+        },
+        {
+          "name": "Get Allocation By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/allocations/{{allocationId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "allocations", "{{allocationId}}" ]
+            }
+          }
+        },
+        {
+          "name": "Search Allocations (Product, Warehouse, Date Range)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/allocations/search?productId={{productId}}&warehouseId={{warehouseId}}&startDate=2026-01-01&endDate=2026-06-30&page=0&size=10&sortBy=allocatedAt&sortDir=desc",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "allocations", "search" ],
+              "query": [
+                { "key": "productId", "value": "{{productId}}" },
+                { "key": "warehouseId", "value": "{{warehouseId}}" },
+                { "key": "startDate", "value": "2026-01-01" },
+                { "key": "endDate", "value": "2026-06-30" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" },
+                { "key": "sortBy", "value": "allocatedAt" },
+                { "key": "sortDir", "value": "desc" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel Allocation",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/allocations/{{allocationId}}/cancel",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "allocations", "{{allocationId}}", "cancel" ]
+            },
+            "description": "Cancels an allocation and reverts the allocated quantity back to warehouse inventory."
+          }
+        },
+        {
+          "name": "Get Allocation History (Audit)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/allocations/{{allocationId}}/history",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "allocations", "{{allocationId}}", "history" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stock Transfer",
+      "item": [
+        {
+          "name": "Create Stock Transfer",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceWarehouseId\": 1,\n  \"targetWarehouseId\": 2,\n  \"productId\": 1,\n  \"quantity\": 25\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/stock-transfers",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "stock-transfers" ]
+            },
+            "description": "Transfers stock between warehouses. Validates source has sufficient available_quantity and target has capacity, then updates both inventory records atomically."
+          }
+        },
+        {
+          "name": "Get Stock Transfer By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/stock-transfers/{{transferId}}",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "stock-transfers", "{{transferId}}" ]
+            }
+          }
+        },
+        {
+          "name": "Search Stock Transfers (Warehouse, Date Range)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/stock-transfers/search?warehouseId={{warehouseId}}&startDate=2026-01-01&endDate=2026-06-30&page=0&size=10",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "stock-transfers", "search" ],
+              "query": [
+                { "key": "warehouseId", "value": "{{warehouseId}}" },
+                { "key": "startDate", "value": "2026-01-01" },
+                { "key": "endDate", "value": "2026-06-30" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Scenarios (Negative Tests)",
+      "item": [
+        {
+          "name": "Allocate Non-Existent Product (Expect 404)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 99999,\n  \"warehouseId\": 1,\n  \"quantity\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/allocations",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "allocations" ]
+            }
+          }
+        },
+        {
+          "name": "Allocate Exceeding Available Stock (Expect 400)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"warehouseId\": 1,\n  \"quantity\": 999999\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/allocations",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "allocations" ]
+            }
+          }
+        },
+        {
+          "name": "Allocate Negative Quantity (Expect 400)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"warehouseId\": 1,\n  \"quantity\": -5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/allocations",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "allocations" ]
+            }
+          }
+        },
+        {
+          "name": "Transfer Exceeding Capacity (Expect 400)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceWarehouseId\": 1,\n  \"targetWarehouseId\": 2,\n  \"productId\": 1,\n  \"quantity\": 999999\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/stock-transfers",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "stock-transfers" ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
