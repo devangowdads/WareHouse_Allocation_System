@@ -141,3 +141,7 @@ See `Assumptions_and_Design_Decisions.md` for detailed notes, including:
 
 ## Team
 Devan Gowda D S
+
+## 
+License
+This project is developed for learning and educational purposes.
