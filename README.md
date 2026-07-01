@@ -139,6 +139,5 @@ See `Assumptions_and_Design_Decisions.md` for detailed notes, including:
 - [x] README (this file)
 - [x] Assumptions & Design Decisions document
 
-## License
-
-_(fill in license, e.g. MIT)_
+## Team
+Devan Gowda D S
